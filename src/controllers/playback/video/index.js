@@ -1071,7 +1071,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                 return;
             }
 
-            if (layoutManager.tv && keyboardnavigation.isNavigationKey(key)) {
+            if (layoutManager.tv && keyboardnavigation.isNavigationKey(key) && key !== 'ArrowLeft' && key !== 'ArrowRight') {
                 showOsd();
                 return;
             }
@@ -1103,14 +1103,26 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
                 case 'l':
                 case 'ArrowRight':
                 case 'Right':
-                    playbackManager.fastForward(currentPlayer);
-                    showOsd();
+                    if (layoutManager.tv) {
+                        if (currentVisibleMenu === null && !getOpenedDialog()) {
+                            playbackManager.fastForward(currentPlayer);
+                        }
+                    } else {
+                        playbackManager.fastForward(currentPlayer);
+                        showOsd();
+                    }
                     break;
                 case 'j':
                 case 'ArrowLeft':
                 case 'Left':
-                    playbackManager.rewind(currentPlayer);
-                    showOsd();
+                    if (layoutManager.tv) {
+                        if (currentVisibleMenu === null && !getOpenedDialog()) {
+                            playbackManager.rewind(currentPlayer);
+                        }
+                    } else {
+                        playbackManager.rewind(currentPlayer);
+                        showOsd();
+                    }
                     break;
                 case 'f':
                     if (!e.ctrlKey && !e.metaKey) {
